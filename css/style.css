@@ -312,7 +312,7 @@ section{ padding-block:clamp(3rem,7vw,6.5rem); }
 }
 .cookie-banner.show{ transform:translateY(0); opacity:1; }
 .cookie-banner p{ font-size:.88rem; line-height:1.5; }
-.cookie-banner p a{ color:var(--white); text-decoration:underline; font-weight:600; }
+.cookie-banner p a{ color:var(--line); text-decoration:underline; font-weight:600; }
 .cookie-actions{ display:flex; gap:.7rem; flex-wrap:wrap; }
 .cookie-actions .btn{ padding:.6rem 1.1rem; font-size:.84rem; }
 @media (max-width:480px){
