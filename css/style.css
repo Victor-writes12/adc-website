@@ -39,7 +39,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:smooth; overflow-x:hidden; overscroll-behavior-x:none; max-width:100%; }
 body{
   margin:0;
   background:var(--paper);
@@ -48,6 +48,11 @@ body{
   font-size:var(--step-0);
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  overscroll-behavior-x:none;
+  max-width:100%;
+  position:relative;
+  touch-action:pan-y;
 }
 img{ max-width:100%; display:block; }
 a{ color:inherit; text-decoration:none; }
@@ -65,26 +70,24 @@ button{ font-family:inherit; cursor:pointer; }
 
 /* ============ PRELOADER ============ */
 #preloader{
-  position:fixed; top:0; left:0; width:100vw; height:100vh; margin:0; padding:0; z-index:999;
+  position:fixed; inset:0; margin:0; padding:0; z-index:999;
   background:var(--navy-950);
   display:flex; align-items:center; justify-content:center;
   transition:opacity .4s ease, visibility .4s ease;
 }
 #preloader.done{ opacity:0; visibility:hidden; pointer-events:none; }
 .pre-mark{
-  position:absolute; top:50%; left:50%; width:74px; height:74px;
-  margin:-37px 0 0 -37px; /* guarantees dead-center regardless of flex support */
+  position:absolute; top:50%; left:50%; width:56px; height:56px;
+  margin:-28px 0 0 -28px; /* guarantees dead-center regardless of flex support */
+  animation:preload-pulse 1.1s ease-in-out infinite;
 }
-.pre-mark svg{ width:100%; height:100%; display:block; }
-.pre-ring{ fill:none; stroke:var(--red-600); stroke-width:3; stroke-linecap:round; stroke-dasharray:210; stroke-dashoffset:210; animation:preload 1.15s ease-in-out infinite; transform-origin:center; }
-@keyframes preload{
-  0%{ stroke-dashoffset:210; transform:rotate(0deg);}
-  50%{ stroke-dashoffset:40; transform:rotate(180deg);}
-  100%{ stroke-dashoffset:210; transform:rotate(360deg);}
+.pre-mark img{ width:100%; height:100%; display:block; }
+@keyframes preload-pulse{
+  0%, 100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(0.88); opacity:.75; }
 }
-.pre-bolt{ fill:var(--white); }
 @media (prefers-reduced-motion: reduce){
-  .pre-ring{ animation:none; stroke-dashoffset:60; }
+  .pre-mark{ animation:none; }
 }
 
 /* ============ HEADER / NAV ============ */
@@ -100,7 +103,7 @@ button{ font-family:inherit; cursor:pointer; }
 .brand-text strong{ font-family:var(--f-head); font-weight:800; font-size:.95rem; color:var(--white); letter-spacing:.01em; }
 .brand-text span{ font-size:.66rem; color:var(--slate-light); }
 
-.nav-links{ display:flex; align-items:center; gap:1.9rem; }
+.nav-links{ display:flex; align-items:center; gap:1.5rem; }
 .nav-links a{ color:#D9DEEA; font-size:.92rem; font-weight:500; padding:.3rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
 .nav-links a:hover, .nav-links a[aria-current="page"]{ color:var(--white); border-color:var(--red-600); }
 .nav-cta-mobile{ display:none; }
@@ -146,7 +149,7 @@ button{ font-family:inherit; cursor:pointer; }
 .hero h1 span{ color:var(--red-600); }
 .hero-sub{ margin-top:1.1rem; color:#C6CCDB; font-size:var(--step-1); max-width:48ch; }
 .hero-actions{ display:flex; gap:.9rem; margin-top:1.7rem; flex-wrap:wrap; }
-.hero-stats{ display:flex; gap:clamp(1.4rem,3vw,2.6rem); margin-top:2rem; flex-wrap:wrap; }
+.hero-stats{ display:flex; gap:clamp(1.4rem,3vw,2.6rem); margin-top:2rem; flex-wrap: nowrap; }
 .hero-stats div strong{ display:block; font-family:var(--f-head); font-size:var(--step-3); color:var(--white); }
 .hero-stats div span{ font-size:.82rem; color:var(--slate-light); }
 
@@ -312,7 +315,7 @@ section{ padding-block:clamp(3rem,7vw,6.5rem); }
 }
 .cookie-banner.show{ transform:translateY(0); opacity:1; }
 .cookie-banner p{ font-size:.88rem; line-height:1.5; }
-.cookie-banner p a{ color:var(--line); text-decoration:underline; font-weight:600; }
+.cookie-banner p a{ color:var(--white); text-decoration:underline; font-weight:600; }
 .cookie-actions{ display:flex; gap:.7rem; flex-wrap:wrap; }
 .cookie-actions .btn{ padding:.6rem 1.1rem; font-size:.84rem; }
 @media (max-width:480px){
@@ -327,7 +330,7 @@ section{ padding-block:clamp(3rem,7vw,6.5rem); }
 .site-banner-close:hover{ opacity:1; }
 
 /* ============ MOBILE NAV ============ */
-@media (max-width: 940px){
+@media (max-width: 1180px){
   .nav-links{
     position:fixed; top:0; right:0; height:100vh; width:min(78vw,340px);
     background:var(--navy-950); flex-direction:column; align-items:flex-start;
@@ -364,4 +367,30 @@ section{ padding-block:clamp(3rem,7vw,6.5rem); }
   .work-card.wide{ grid-column:span 1; }
   .footer-grid{ grid-template-columns:1fr; }
   .cta-band{ flex-direction:column; align-items:flex-start; }
+}
+
+/* ============ ARTICLE / PROSE (blog posts, terms) ============ */
+.prose{ max-width:740px; }
+.prose h2{ font-size:var(--step-2); margin-top:2.4rem; margin-bottom:.9rem; }
+.prose h2:first-child{ margin-top:0; }
+.prose h3{ font-size:var(--step-1); margin-top:1.8rem; margin-bottom:.7rem; }
+.prose p{ color:var(--slate); margin-bottom:1.1rem; font-size:1.02rem; }
+.prose ul, .prose ol{ margin-bottom:1.2rem; padding-left:1.3rem; color:var(--slate); }
+.prose ul{ list-style:disc; }
+.prose ol{ list-style:decimal; }
+.prose li{ margin-bottom:.5rem; }
+.prose strong{ color:var(--ink); font-weight:600; }
+.prose a{ color:var(--navy-800); text-decoration:underline; font-weight:600; }
+.article-meta{ display:flex; gap:.8rem; align-items:center; color:var(--slate-light); font-size:.85rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.article-meta .work-tag{ font-size:.76rem; }
+.article-cover{ border-radius:var(--radius-m); overflow:hidden; margin-bottom:2.4rem; aspect-ratio:16/8; }
+.article-cover img{ width:100%; height:100%; object-fit:cover; }
+.article-share{ display:flex; gap:.8rem; align-items:center; margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--line); flex-wrap:wrap; }
+
+/* ============ IMAGE PAGE HERO (terms, no video) ============ */
+.image-hero .hero-media img{ width:100%; height:100%; object-fit:cover; }
+.image-hero .hero-media::after{
+  background:
+    linear-gradient(180deg, rgba(10,17,35,0.88) 0%, rgba(10,17,35,0.8) 100%),
+    radial-gradient(500px 300px at 88% 0%, rgba(212,42,42,0.16), transparent 70%);
 }

@@ -108,17 +108,22 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Contact form (static demo, no backend wired)
+  // Contact form (on-screen confirmation; EmailJS and Supabase hook into
+  // the same form separately and read its values before this resets it)
   var form = document.getElementById("contact-form");
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var note = document.getElementById("form-note");
-      if (note) {
-        note.textContent = "Thanks, your request has been noted. Our team will reach out shortly.";
-        note.style.display = "block";
-      }
-      form.reset();
+      // Deferred so emailjs-client.js and supabase-client.js, whose listeners
+      // are attached after this one, get to read the field values first.
+      setTimeout(function () {
+        var note = document.getElementById("form-note");
+        if (note) {
+          note.textContent = "Thanks, your request has been noted. Our team will reach out shortly.";
+          note.style.display = "block";
+        }
+        form.reset();
+      }, 0);
     });
   }
 })();
