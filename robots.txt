@@ -22,4 +22,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://www.adcsystems.ng/sitemap.xml
+Sitemap: https://www.adcsystemslimited.com/sitemap.xml
