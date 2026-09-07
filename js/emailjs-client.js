@@ -17,10 +17,10 @@
 // 5. Under Account, General, copy your Public Key
 // 6. Paste all four values below in place of the placeholders
 
-window.ADC_EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-window.ADC_EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-window.ADC_EMAILJS_ADMIN_TEMPLATE_ID = "YOUR_ADMIN_TEMPLATE_ID";
-window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "YOUR_AUTOREPLY_TEMPLATE_ID";
+window.ADC_EMAILJS_PUBLIC_KEY = "TgmfORAJIQUowThL9";
+window.ADC_EMAILJS_SERVICE_ID = "service_cus5a0j";
+window.ADC_EMAILJS_ADMIN_TEMPLATE_ID = "template_nejy8ta";
+window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "Y";
 
 (function () {
   "use strict";
