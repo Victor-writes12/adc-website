@@ -9,8 +9,8 @@
 // access described by the Row Level Security policies in schema.sql
 // (read active banners/promotions, insert a contact message).
 
-window.ADC_SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-window.ADC_SUPABASE_ANON_KEY = "YOUR-PUBLIC-ANON-KEY";
+window.ADC_SUPABASE_URL = "https://llpqnommxcbxernmnsgz.supabase.co";
+window.ADC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxscHFub21teGNieGVybm1uc2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2MzI4NjUsImV4cCI6MjEwNDIwODg2NX0.kIoIHAWfROTsoh1zuFDD43-bGUwS6iLcQhL_jQYjDcI";
 
 (function () {
   "use strict";
