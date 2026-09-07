@@ -20,7 +20,7 @@
 window.ADC_EMAILJS_PUBLIC_KEY = "TgmfORAJIQUowThL9";
 window.ADC_EMAILJS_SERVICE_ID = "service_cus5a0j";
 window.ADC_EMAILJS_ADMIN_TEMPLATE_ID = "template_nejy8ta";
-window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "Y";
+window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "template_tjtshg8";
 
 (function () {
   "use strict";
