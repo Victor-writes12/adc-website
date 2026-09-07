@@ -142,7 +142,7 @@ button{ font-family:inherit; cursor:pointer; }
 }
 .hero-inner{
   position:relative; z-index:1; max-width:920px;
-  padding-block:clamp(6.5rem,14vw,8.5rem) clamp(2.75rem,7vw,4rem);
+  padding-block:clamp(5.5rem,14vw,8.5rem) clamp(2.75rem,7vw,4rem);
 }
 .hero-kicker{ font-family:var(--f-serif); font-size:1.05rem; color:#F0B7B7; margin-bottom:.7rem; }
 .hero h1{ color:var(--white); font-size:var(--step-5); }
