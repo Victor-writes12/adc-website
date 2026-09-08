@@ -16,7 +16,7 @@
 .portal-brand strong{ font-family:var(--f-head); font-size:.92rem; letter-spacing:.02em; }
 .portal-brand span{ display:block; font-size:.68rem; color:var(--slate-light); }
 .portal-topbar-actions{ display:flex; align-items:center; gap:.8rem; }
-.portal-topbar-actions a{ font-size:.85rem; color:#D9DEEA; }
+.portal-topbar-actions a{ font-size:.85rem; color:#e3e6ec; }
 .portal-topbar-actions a:hover{ color:var(--white); }
 
 /* ---------- Auth pages (login / register / complete-profile) ---------- */
