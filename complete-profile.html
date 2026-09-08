@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Complete Your Registration | ADC Systems Training Portal</title>
+  <link rel="icon" type="image/png" href="assets/images/adc-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body>
+
+  <header class="portal-topbar">
+    <div class="wrap">
+      <a class="portal-brand" href="index.html">
+        <img src="assets/images/adc-icon.png" alt="ADC Systems">
+        <span><strong>ADC SYSTEMS</strong><span>Training Portal</span></span>
+      </a>
+      <div class="portal-topbar-actions">
+        <a href="#" id="logoutLink">Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-shell">
+    <div class="auth-card wide">
+      <div class="auth-logo"><img src="assets/images/adc-icon.png" alt="ADC Systems logo"></div>
+      <h1>Tell us a bit about you</h1>
+      <p class="auth-sub">Step 2 of 2, this creates your student profile and unique ADC student ID.</p>
+
+      <form id="profileForm" novalidate>
+        <div class="form-grid" style="gap:1.1rem;">
+          <div class="field" style="grid-column:1/-1;">
+            <label for="email">Gmail address</label>
+            <input type="email" id="email" name="email" readonly>
+          </div>
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Adaeze Okafor" required>
+          </div>
+          <div class="field">
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+          <div class="field">
+            <label for="state">State of origin</label>
+            <select id="state" name="state" required>
+              <option value="" disabled selected>Select your state</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="nin">NIN <span style="font-weight:400;color:var(--slate-light);">(optional)</span></label>
+            <input type="text" id="nin" name="nin" placeholder="11-digit National ID Number" maxlength="11" pattern="[0-9]{11}">
+          </div>
+          <div class="field" style="grid-column:1/-1;">
+            <label for="referral">How did you hear about us?</label>
+            <select id="referral" name="referral" required>
+              <option value="" disabled selected>Select an option</option>
+              <option>Instagram</option>
+              <option>Facebook</option>
+              <option>WhatsApp</option>
+              <option>Google Search</option>
+              <option>Referred by a friend/family</option>
+              <option>ADC Systems client/customer</option>
+              <option>Flyer / Signage</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-red btn-block" id="submitBtn" style="margin-top:.6rem;">Create my student profile</button>
+      </form>
+
+      <div id="formMsg" class="form-msg"></div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="js/supabase-client.js" defer></script>
+  <script src="js/portal-auth.js" defer></script>
+  <script src="js/complete-profile.js" defer></script>
+</body>
+</html>

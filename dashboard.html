@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>My Dashboard | ADC Systems Training Portal</title>
+  <link rel="icon" type="image/png" href="assets/images/adc-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="icon-link" viewBox="0 0 24 24"><path d="M9 15l6-6M8.5 10.5 6 13a3.5 3.5 0 0 0 5 5l2.5-2.5M15.5 13.5 18 11a3.5 3.5 0 0 0-5-5l-2.5 2.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></symbol>
+  </svg>
+
+  <header class="portal-topbar">
+    <div class="wrap">
+      <a class="portal-brand" href="index.html">
+        <img src="assets/images/adc-icon.png" alt="ADC Systems">
+        <span><strong>ADC SYSTEMS</strong><span>Training Portal</span></span>
+      </a>
+      <div class="portal-topbar-actions">
+        <a href="training.html">About the Bootcamp</a>
+        <a href="index.html">Main Website</a>
+        <a href="#" id="logoutLink">Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-shell">
+    <div class="wrap">
+
+      <div class="dash-welcome">
+        <div>
+          <h1 id="welcomeName">Welcome back...</h1>
+          <p id="welcomeSub">Loading your training dashboard.</p>
+        </div>
+        <div class="dash-id-badge">
+          <span>Student ID</span>
+          <span id="studentId">—</span>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <!-- Left column -->
+        <div>
+          <div class="dash-card">
+            <div style="display:flex; align-items:center; gap:.9rem;">
+              <div class="avatar-circle" id="avatarInitials">--</div>
+              <div>
+                <h2 style="font-size:1.05rem;" id="profileName">—</h2>
+                <p class="card-sub" id="profileEmail">—</p>
+              </div>
+            </div>
+            <dl class="profile-list">
+              <div><dt>Date of birth</dt><dd id="profileDob">—</dd></div>
+              <div><dt>State of origin</dt><dd id="profileState">—</dd></div>
+              <div><dt>NIN</dt><dd id="profileNin">Not provided</dd></div>
+              <div><dt>How they heard about us</dt><dd id="profileReferral">—</dd></div>
+              <div><dt>Joined</dt><dd id="profileJoined">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="dash-card">
+            <h2>Your progress</h2>
+            <p class="card-sub">Tasks completed so far in the bootcamp.</p>
+            <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <p class="progress-label" id="progressLabel">0 of 0 tasks completed</p>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div>
+          <div class="dash-card">
+            <h2>Learning resources</h2>
+            <p class="card-sub">Videos and links your instructor has shared for the bootcamp.</p>
+            <div class="resource-grid" id="resourceGrid">
+              <p class="empty-state">Loading resources...</p>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <h2>Tasks</h2>
+            <p class="card-sub">Work through each task and mark it complete when you're done.</p>
+            <div class="task-list" id="taskList">
+              <p class="empty-state">Loading tasks...</p>
+            </div>
+          </div>
+
+          <!-- Instructor / admin only panel -->
+          <div class="dash-card admin-panel" id="adminPanel" style="display:none;">
+            <h2>Upload learning content</h2>
+            <p class="card-sub">Visible only to instructor/admin accounts.</p>
+
+            <form id="resourceForm" class="admin-form">
+              <div class="field"><label>Title</label><input type="text" id="resTitle" required></div>
+              <div class="field">
+                <label>Type</label>
+                <select id="resType" required>
+                  <option value="video">YouTube video</option>
+                  <option value="link">Link / reading material</option>
+                </select>
+              </div>
+              <div class="field field-full"><label>URL</label><input type="url" id="resUrl" placeholder="https://youtube.com/watch?v=..." required></div>
+              <div class="field field-full"><label>Description (optional)</label><textarea id="resDesc"></textarea></div>
+              <button type="submit" class="btn btn-red field-full">Add resource</button>
+            </form>
+            <div class="admin-list" id="resourceAdminList"></div>
+
+            <hr style="border:none; border-top:1px solid var(--line); margin:1.6rem 0;">
+
+            <h2 style="margin-top:0;">Add a task</h2>
+            <form id="taskForm" class="admin-form">
+              <div class="field field-full"><label>Task title</label><input type="text" id="taskTitle" required></div>
+              <div class="field field-full"><label>Description (optional)</label><textarea id="taskDesc"></textarea></div>
+              <div class="field"><label>Due date (optional)</label><input type="date" id="taskDue"></div>
+              <button type="submit" class="btn btn-red field-full">Add task</button>
+            </form>
+            <div class="admin-list" id="taskAdminList"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="js/supabase-client.js" defer></script>
+  <script src="js/portal-auth.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+</body>
+</html>
