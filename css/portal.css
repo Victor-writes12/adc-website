@@ -96,7 +96,7 @@
 .dash-id-badge{
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.25);
-  border-radius:999px;
+  border-radius:16px;
   padding:.6rem 1.2rem;
   font-family:var(--f-head);
   font-size:.85rem;
