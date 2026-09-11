@@ -1,6 +1,12 @@
 User-agent: *
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: OAI-AdsBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
@@ -22,4 +28,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://www.adcsystemslimited.com/sitemap.xml
+Sitemap: https://adcsystemslimited.com/sitemap.xml
