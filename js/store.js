@@ -264,13 +264,10 @@
         })
         .join("");
     }
-
     var subtotal = cartSubtotal();
-    var delivery = entries.length > 0 ? DELIVERY_FEE : 0;
-    var total = subtotal + delivery;
+    var total = subtotal;
 
     setText("checkout-subtotal-value", NAIRA.format(subtotal));
-    setText("checkout-delivery-value", NAIRA.format(delivery));
     setText("checkout-total", NAIRA.format(total));
   }
   function setText(id, text) {
