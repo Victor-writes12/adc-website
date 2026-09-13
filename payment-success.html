@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Status | ADC Systems Integrated Solutions</title>
+<meta name="description" content="View the status of your ADC Systems payment.">
+<link rel="icon" type="image/png" href="assets/images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+<div id="preloader" aria-hidden="true">
+  <div class="pre-mark">
+    <img src="assets/images/preloader-logo.png" alt="" width="56" height="56">
+  </div>
+</div>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="assets/images/adc-icon.png" alt="ADC Systems icon" width="38" height="38">
+      <span class="brand-text"><strong>ADC SYSTEMS</strong><span>Integrated Solutions Ltd</span></span>
+    </a>
+  </div>
+</header>
+<main>
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Payment Status</span></div>
+      <h1 id="payment-title">Checking payment status</h1>
+      <p id="payment-message">Please wait while we confirm your payment details.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container" style="max-width:720px; text-align:center;">
+      <div class="checkout-summary" id="payment-result">
+        <h2 id="payment-result-title">Checking payment status</h2>
+        <p id="payment-reference" class="form-note"></p>
+        <div style="margin-top:24px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="shop.html">Continue Shopping</a>
+          <a class="btn btn-outline" href="index.html">Return Home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var isConfirmed = params.get("status") === "success";
+    var reference = params.get("reference");
+    var title = document.getElementById("payment-title");
+    var message = document.getElementById("payment-message");
+    var resultTitle = document.getElementById("payment-result-title");
+    var referenceText = document.getElementById("payment-reference");
+
+    if (isConfirmed && reference) {
+      title.textContent = "Payment successful";
+      message.textContent = "Your payment was confirmed by Paystack. Our team will contact you to arrange delivery.";
+      resultTitle.textContent = "Thank you for your order";
+      referenceText.textContent = "Payment reference: " + reference;
+    } else {
+      title.textContent = "Payment not confirmed";
+      message.textContent = "We could not confirm this payment session. Please return to checkout or contact our team if you were charged.";
+      resultTitle.textContent = "No confirmed payment found";
+      referenceText.textContent = "Do not treat this page as proof of payment without a valid Paystack reference.";
+    }
+
+    var preloader = document.getElementById("preloader");
+    if (preloader) setTimeout(function () { preloader.classList.add("done"); }, 350);
+  })();
+</script>
+</body>
+</html>

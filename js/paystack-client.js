@@ -1,0 +1,1 @@
+window.ADC_PAYSTACK_PUBLIC_KEY = "pk_live_855214fca72021ddae23a7947bbef665c2388ad6";

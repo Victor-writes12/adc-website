@@ -26,6 +26,14 @@
     window.ADC_SUPABASE_ANON_KEY
   );
 
+  function portalRedirectUrl(path) {
+    var cleanPath = String(path || "").replace(/^\/+/, "");
+    if (window.location.hostname === "adcsystemslimited.com" || window.location.hostname === "www.adcsystemslimited.com") {
+      return "https://adcsystemslimited.com/" + cleanPath;
+    }
+    return new URL(cleanPath, window.location.href).href;
+  }
+
   window.ADCPortal = {
     client: portalClient,
 
@@ -38,7 +46,7 @@
 
     // Sign in / sign up with Google
     signInWithGoogle: function (redirectPath) {
-      var redirectTo = window.location.origin + window.location.pathname.replace(/[^/]+$/, "") + redirectPath;
+      var redirectTo = portalRedirectUrl(redirectPath);
       return portalClient.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo: redirectTo }
@@ -47,11 +55,19 @@
 
     // Sign in / sign up with a magic link sent to a Gmail address
     sendMagicLink: function (email, redirectPath) {
-      var redirectTo = window.location.origin + window.location.pathname.replace(/[^/]+$/, "") + redirectPath;
+      var redirectTo = portalRedirectUrl(redirectPath);
       return portalClient.auth.signInWithOtp({
         email: email,
         options: { emailRedirectTo: redirectTo }
       });
+    },
+
+    signInWithPassword: function (email, password) {
+      return portalClient.auth.signInWithPassword({ email: email, password: password });
+    },
+
+    setPassword: function (password) {
+      return portalClient.auth.updateUser({ password: password });
     },
 
     signOut: function () {
@@ -64,6 +80,21 @@
         .from("students")
         .select("*")
         .eq("auth_user_id", authUserId)
+        .maybeSingle()
+        .then(function (res) {
+          if (res.error) throw res.error;
+          return res.data;
+        });
+    },
+
+    getTrainingPayment: function (email) {
+      return portalClient
+        .from("training_payments")
+        .select("id, amount, currency, payment_reference, status")
+        .eq("email", email)
+        .in("status", ["deposit_paid", "completed"])
+        .order("created_at", { ascending: false })
+        .limit(1)
         .maybeSingle()
         .then(function (res) {
           if (res.error) throw res.error;

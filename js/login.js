@@ -21,6 +21,22 @@
       msg.className = "form-msg is-visible " + type;
     }
 
+    document.getElementById("passwordForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = document.getElementById("passwordEmail").value.trim();
+      var password = document.getElementById("password").value;
+      if (!window.ADCPortal.isGmail(email) || password.length < 8) {
+        showMsg("Enter your Gmail address and a password of at least 8 characters.", "error");
+        return;
+      }
+      window.ADCPortal.signInWithPassword(email, password).then(function (res) {
+        if (res.error) throw res.error;
+        window.location.href = "dashboard.html";
+      }).catch(function (err) {
+        showMsg(err.message || "Could not sign in with your password.", "error");
+      });
+    });
+
     document.getElementById("googleSignIn").addEventListener("click", function () {
       window.ADCPortal.signInWithGoogle("complete-profile.html").catch(function (err) {
         showMsg(err.message || "Could not start Google sign-in.", "error");
@@ -34,7 +50,7 @@
         showMsg("Please enter a valid Gmail address.", "error");
         return;
       }
-      window.ADCPortal.sendMagicLink(email, "complete-profile.html")
+      window.ADCPortal.sendMagicLink(email, "set-password.html")
         .then(function (res) {
           if (res.error) throw res.error;
           showMsg("Check your inbox! We sent a sign-in link to " + email + ".", "success");

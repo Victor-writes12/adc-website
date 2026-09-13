@@ -1,22 +1,3 @@
-// ADC Systems, EmailJS integration
-//
-// This sends two emails whenever the contact form is submitted:
-//   1. A notification to your team with the enquiry details
-//   2. An automatic reply to the customer confirming it was received
-//
-// SETUP
-// 1. Create a free account at https://www.emailjs.com
-// 2. Under Email Services, add a service (e.g. Gmail) and note its Service ID
-// 3. Under Email Templates, create TWO templates using the ready-made HTML in
-//    the emailjs-templates folder:
-//      emailjs-templates/admin-notification.html, paste into your first template
-//      emailjs-templates/auto-reply.html, paste into your second template
-//    Each template file has its own setup notes at the top as an HTML comment,
-//    including which "To Email" address to set for that template.
-// 4. Note the Template ID for each of the two templates
-// 5. Under Account, General, copy your Public Key
-// 6. Paste all four values below in place of the placeholders
-
 window.ADC_EMAILJS_PUBLIC_KEY = "TgmfORAJIQUowThL9";
 window.ADC_EMAILJS_SERVICE_ID = "service_cus5a0j";
 window.ADC_EMAILJS_ADMIN_TEMPLATE_ID = "template_nejy8ta";
@@ -37,9 +18,8 @@ window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "template_tjtshg8";
   emailjs.init({ publicKey: window.ADC_EMAILJS_PUBLIC_KEY });
 
   var form = document.getElementById("contact-form");
-  if (!form) return;
-
-  form.addEventListener("submit", function () {
+  function sendContactEmails() {
+    if (!form) return;
     var submittedAt = new Date().toLocaleString("en-NG", {
       dateStyle: "medium",
       timeStyle: "short",
@@ -55,14 +35,12 @@ window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "template_tjtshg8";
       submitted_at: submittedAt,
     };
 
-    // 1. Notify the ADC Systems team
     emailjs
       .send(window.ADC_EMAILJS_SERVICE_ID, window.ADC_EMAILJS_ADMIN_TEMPLATE_ID, params)
       .catch(function (err) {
         console.error("EmailJS admin notification failed to send:", err);
       });
 
-    // 2. Auto-reply to the customer, only if they gave an email address
     if (params.email) {
       emailjs
         .send(window.ADC_EMAILJS_SERVICE_ID, window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID, params)
@@ -70,6 +48,40 @@ window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID = "template_tjtshg8";
           console.error("EmailJS auto-reply failed to send:", err);
         });
     }
-    /* main.js still shows the on-screen confirmation either way */
-  });
+  }
+
+  if (form) form.addEventListener("submit", sendContactEmails);
+
+  window.ADC_sendOrderEmails = function (order) {
+    var itemLines = order.items.map(function (item) {
+      return item.name + " x" + item.qty + " - NGN " + (item.unit_price * item.qty).toLocaleString("en-NG");
+    }).join("\n");
+    var params = {
+      full_name: order.full_name,
+      phone: order.phone,
+      email: order.email,
+      address: order.address,
+      service: "Shop order - " + order.payment_method,
+      property_location: order.address,
+      message: "Items:\n" + itemLines + "\n\nTotal: NGN " + order.total.toLocaleString("en-NG") +
+        "\nPayment status: " + order.status +
+        "\nPayment reference: " + (order.payment_reference || "Not applicable"),
+      items: order.items,
+      total: order.total,
+      payment_method: order.payment_method,
+      payment_reference: order.payment_reference || "Not applicable",
+      status: order.status,
+      submitted_at: new Date().toLocaleString("en-NG", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
+    };
+
+    return emailjs
+      .send(window.ADC_EMAILJS_SERVICE_ID, window.ADC_EMAILJS_ADMIN_TEMPLATE_ID, params)
+      .then(function () {
+        if (!params.email) return;
+        return emailjs.send(window.ADC_EMAILJS_SERVICE_ID, window.ADC_EMAILJS_AUTOREPLY_TEMPLATE_ID, params);
+      });
+  };
 })();

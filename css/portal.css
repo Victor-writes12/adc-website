@@ -177,6 +177,11 @@
 .admin-list{ margin-top:1.2rem; display:flex; flex-direction:column; gap:.5rem; }
 .admin-list-row{ display:flex; align-items:center; justify-content:space-between; gap:.8rem; border:1px solid var(--line); border-radius:var(--radius-s); padding:.6rem .8rem; font-size:.85rem; }
 .admin-list-row .del-btn{ color:var(--red-600); font-size:.78rem; font-weight:600; cursor:pointer; background:none; border:none; }
+.product-admin-row small{ display:block; color:var(--slate-light); font-size:.75rem; margin-top:.2rem; }
+.product-admin-actions{ display:flex; align-items:center; gap:.7rem; flex-shrink:0; }
+.product-admin-actions button{ border:0; background:none; font:inherit; font-size:.78rem; font-weight:600; cursor:pointer; }
+.product-admin-actions .edit-product{ color:var(--navy-900); }
+.product-active-toggle{ grid-column:1 / -1; display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--navy-900); }
 
 .avatar-circle{ width:44px; height:44px; border-radius:50%; background:var(--red-600); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:var(--f-head); font-weight:700; font-size:1rem; }
 

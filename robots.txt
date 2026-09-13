@@ -22,7 +22,13 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Deepseek
+Allow: /
+
 User-agent: CCBot
+Allow: /
+
+User-agent: Bing
 Allow: /
 
 User-agent: PerplexityBot

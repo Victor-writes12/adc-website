@@ -57,6 +57,12 @@
         document.getElementById("profileForm").addEventListener("submit", function (e) {
           e.preventDefault();
           var submitBtn = document.getElementById("submitBtn");
+          var password = document.getElementById("accountPassword").value;
+          var passwordConfirm = document.getElementById("accountPasswordConfirm").value;
+          if (password.length < 8 || password !== passwordConfirm) {
+            showMsg("Use a password of at least 8 characters and make both passwords match.", "error");
+            return;
+          }
           submitBtn.disabled = true;
           submitBtn.textContent = "Creating your profile...";
 
@@ -70,21 +76,22 @@
             email: user.email
           };
 
-          window.ADCPortal.client
+          window.ADCPortal.setPassword(password).then(function (passwordResult) {
+            if (passwordResult.error) throw passwordResult.error;
+            return window.ADCPortal.client
             .from("students")
             .insert(payload)
             .select()
             .single()
-            .then(function (res) {
+          }).then(function (res) {
               if (res.error) throw res.error;
               showMsg("Profile created! Redirecting to your dashboard...", "success");
               setTimeout(function () { window.location.href = "dashboard.html"; }, 900);
-            })
-            .catch(function (err) {
+          }).catch(function (err) {
               submitBtn.disabled = false;
               submitBtn.textContent = "Create my student profile";
               showMsg(err.message || "Could not save your profile. Please try again.", "error");
-            });
+          });
         });
       });
     }).catch(function () { /* requireSession already redirected to login */ });
