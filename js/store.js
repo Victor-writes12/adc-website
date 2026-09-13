@@ -4,7 +4,6 @@
   var CART_KEY = "adc-cart";
   var WHATSAPP_NUMBER = "2348163614795";
   var NAIRA = new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 });
-  var DELIVERY_FEE = 3000;
 
   function readCart() {
     try {
@@ -261,8 +260,7 @@
             "<span>" + NAIRA.format(e.item.qty * e.item.price) + "</span>" +
             "</div>"
           );
-        })
-        .join("");
+        });
     }
     var subtotal = cartSubtotal();
     var total = subtotal;
@@ -334,7 +332,7 @@
       var notes = document.getElementById("co-notes").value;
       var paymentMethod = document.getElementById("co-payment").value;
       var subtotal = cartSubtotal();
-      var total = subtotal + DELIVERY_FEE;
+      var total = subtotal;
       var itemsForRecord = entries.map(function (e) {
         return { name: e.item.name, qty: e.item.qty, unit_price: e.item.price };
       });
