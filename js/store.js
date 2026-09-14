@@ -316,6 +316,41 @@
     if (!form) return;
 
     renderCheckoutSummary();
+     var addressField = document.getElementById("co-address-field");
+    var pickupNote = document.getElementById("co-pickup-note");
+    var addressInput = document.getElementById("co-address");
+    var deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
+
+    function updateDeliveryUI() {
+      var checked = document.querySelector('input[name="delivery_method"]:checked');
+      var isPickup = checked && checked.value === "Pickup";
+      if (addressField) addressField.style.display = isPickup ? "none" : "";
+      if (pickupNote) pickupNote.style.display = isPickup ? "" : "none";
+      if (addressInput) addressInput.required = !isPickup;
+
+      var deliveryRow = document.getElementById("checkout-delivery-row");
+      var deliveryHint = document.getElementById("checkout-delivery-hint");
+      if (deliveryRow) deliveryRow.style.display = isPickup ? "none" : "";
+      if (deliveryHint) deliveryHint.style.display = isPickup ? "none" : "";
+
+      updatePaystackNote();
+    }
+
+    function updatePaystackNote() {
+      var note = document.getElementById("co-paystack-delivery-note");
+      var checked = document.querySelector('input[name="delivery_method"]:checked');
+      var isPickup = checked && checked.value === "Pickup";
+      var paymentSelect = document.getElementById("co-payment");
+      var isPaystack = paymentSelect && paymentSelect.value === "Pay Now, Card Or Transfer (Paystack)";
+      if (note) note.style.display = (isPaystack && !isPickup) ? "" : "none";
+    }
+
+    deliveryRadios.forEach(function (radio) {
+      radio.addEventListener("change", updateDeliveryUI);
+    });
+    var paymentSelect = document.getElementById("co-payment");
+    if (paymentSelect) paymentSelect.addEventListener("change", updatePaystackNote);
+    updateDeliveryUI();
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -328,7 +363,11 @@
       var fullName = document.getElementById("co-name").value;
       var phone = document.getElementById("co-phone").value;
       var email = document.getElementById("co-email").value;
-      var address = document.getElementById("co-address").value;
+      var deliveryMethodEl = document.querySelector('input[name="delivery_method"]:checked');
+      var deliveryMethod = deliveryMethodEl ? deliveryMethodEl.value : "Delivery";
+      var address = deliveryMethod === "Pickup"
+        ? "Self-pickup (location to be arranged by phone)"
+        : document.getElementById("co-address").value;
       var notes = document.getElementById("co-notes").value;
       var paymentMethod = document.getElementById("co-payment").value;
       var subtotal = cartSubtotal();
@@ -348,6 +387,7 @@
           payment_reference: reference || null,
           status: status,
           payment_method: paymentMethod,
+          delivery_method: deliveryMethod,
         };
         saveOrderToSupabase(order).then(function () {
           if (!window.ADC_sendOrderEmails) return;
@@ -400,6 +440,7 @@
               payment_method: paymentMethod,
               payment_reference: response.reference,
               status: "paid",
+              delivery_method: deliveryMethod,
             };
             verifyPaidOrder(response.reference, paidOrder).then(function () {
               if (!window.ADC_sendOrderEmails) return;

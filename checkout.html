@@ -87,6 +87,17 @@
         <h3>Delivery Details</h3>
         <p style="color:var(--gray-500); font-size:.9rem; margin-bottom:22px;">We'll call to confirm your order before it ships.</p>
         <div class="form-grid">
+         <div class="form-field full">
+            <label>Delivery Method</label>
+            <div id="delivery-toggle" style="display:flex; gap:20px; margin-top:6px; flex-wrap:wrap;">
+              <label style="display:flex; align-items:center; gap:8px; font-weight:400;">
+                <input type="radio" name="delivery_method" value="Delivery" checked> Deliver to my address
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:400;">
+                <input type="radio" name="delivery_method" value="Pickup"> I'll pick it up myself
+              </label>
+            </div>
+          </div>
           <div class="form-field">
             <label for="co-name">Full name</label>
             <input type="text" id="co-name" name="name" placeholder="Your full name" required>
@@ -99,9 +110,13 @@
             <label for="co-email">Email address</label>
             <input type="email" id="co-email" name="email" placeholder="your@email.com" required>
           </div>
-          <div class="form-field full">
+          <div class="form-field full" id="co-address-field">
             <label for="co-address">Delivery address</label>
             <input type="text" id="co-address" name="address" placeholder="Street, area, city" required>
+          </div>
+          <div class="form-field full" id="co-pickup-note" style="display:none;">
+            <label>Pickup Location</label>
+            <p class="form-note">You've chosen self-pickup. Our team will confirm the pickup location and time by phone after you place your order.</p>
           </div>
           <div class="form-field full">
             <label for="co-notes">Order notes (optional)</label>
@@ -117,6 +132,7 @@
             <option>Pay Now, Card Or Transfer (Paystack)</option>
           </select>
         </div>
+        <p class="form-note" id="co-paystack-delivery-note" style="display:none;">Online payment covers your items only. Our team will contact you separately to arrange the delivery fee.</p>
 
         <div class="trust-bar">
           <div class="trust-item">
@@ -142,8 +158,10 @@
         <div id="checkout-items"></div>
         <div class="checkout-totals">
           <div class="row"><span>Subtotal</span><span id="checkout-subtotal-value">&#8358;0</span></div>
+          <div class="row" id="checkout-delivery-row" style="display:none;"><span>Delivery</span><span id="checkout-delivery-value">To be confirmed</span></div>
           <div class="row total"><span>Total</span><strong id="checkout-total">&#8358;0</strong></div>
         </div>
+        <p class="form-note" id="checkout-delivery-hint" style="display:none;">Delivery fee isn't included above, our team will confirm it by phone based on your location before your order ships.</p>
       </div>
     </div>
   </div>
