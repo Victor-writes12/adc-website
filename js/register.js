@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var DEPOSIT_AMOUNT = 75000; // NGN 75,000
+  var DEPOSIT_AMOUNT = 75000;
 
   function ready(fn) {
     if (document.readyState !== "loading") fn();
