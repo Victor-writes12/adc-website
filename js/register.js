@@ -40,7 +40,7 @@
         callback: function (response) {
           if (!response || response.status !== "success" || !response.reference) {
             payButton.disabled = false;
-            payButton.textContent = "Pay NGN 25,000 and continue";
+            payButton.textContent = "Pay NGN 75,000 and continue";
             showMsg("Payment could not be confirmed. Please try again or contact us on WhatsApp.", "error");
             return;
           }
@@ -57,13 +57,13 @@
             showMsg("Payment confirmed. Check your inbox for the secure account link.", "success");
           }).catch(function (err) {
             payButton.disabled = false;
-            payButton.textContent = "Pay NGN 25,000 and continue";
+            payButton.textContent = "Pay NGN 75,000 and continue";
             showMsg(err.message || "Payment was received but could not be verified. Contact us with your reference.", "error");
           });
         },
         onClose: function () {
           payButton.disabled = false;
-          payButton.textContent = "Pay NGN 25,000 and continue";
+          payButton.textContent = "Pay NGN 75,000 and continue";
         },
       });
       handler.openIframe();
