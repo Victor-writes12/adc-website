@@ -110,21 +110,17 @@
     document.body.style.overflow = "";
   }
 
-  function wireShopPage() {
+   function wireShopPage() {
     var grid = document.getElementById("product-grid");
     if (!grid) return;
 
     var cards = Array.prototype.slice.call(grid.querySelectorAll(".product-card"));
     var searchInput = document.getElementById("shop-search");
     var sortSelect = document.getElementById("shop-sort");
-    var catButtons = Array.prototype.slice.call(document.querySelectorAll(".shop-cat-btn"));
+    var catNav = document.getElementById("cat-nav");
     var activeCat = "all";
-    var categoryLabels = {
-      cctv: "CCTV & Surveillance",
-      solar: "Solar Power",
-      inverter: "Inverter & Backup",
-      smart: "Smart Home",
-    };
+    var activeSubcat = "all";
+    var lastProducts = [];
 
     function escapeHtml(value) {
       return String(value == null ? "" : value).replace(/[&<>'"]/g, function (character) {
@@ -132,7 +128,12 @@
       });
     }
 
+    function categoryName(slug) {
+      return window.ADC_categoryName ? window.ADC_categoryName(slug) : slug;
+    }
+
     function renderProducts(products) {
+      lastProducts = products;
       grid.innerHTML = products.map(function (product) {
         var badge = product.badge
           ? '<span class="product-badge' + (product.badge === "New" ? " outline" : "") + '">' + escapeHtml(product.badge) + "</span>"
@@ -140,12 +141,14 @@
         var comparePrice = product.compare_at_price
           ? "<small>" + NAIRA.format(product.compare_at_price) + "</small>"
           : "";
+        var shortDesc = product.short_description || product.description || "";
+        var detailUrl = "product.html?id=" + encodeURIComponent(product.id);
         return (
-          '<div class="product-card" data-cat="' + escapeHtml(product.category) + '" data-name="' + escapeHtml(product.name) +
+          '<div class="product-card" data-cat="' + escapeHtml(product.category) + '" data-subcat="' + escapeHtml(product.subcategory || "") + '" data-name="' + escapeHtml(product.name) +
           '" data-search="' + escapeHtml(product.search_terms || product.name) + '" data-price="' + product.price + '">' +
-          '<div class="product-media">' + badge + '<img src="' + escapeHtml(product.image_url) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></div>' +
-          '<div class="product-body"><div class="product-cat">' + escapeHtml(categoryLabels[product.category] || product.category) + '</div>' +
-          '<h3>' + escapeHtml(product.name) + '</h3><p>' + escapeHtml(product.description) + '</p>' +
+          '<a class="product-media" href="' + detailUrl + '">' + badge + '<img src="' + escapeHtml(product.image_url) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></a>' +
+          '<div class="product-body"><div class="product-cat">' + escapeHtml(categoryName(product.category)) + '</div>' +
+          '<h3><a href="' + detailUrl + '">' + escapeHtml(product.name) + '</a></h3><p>' + escapeHtml(shortDesc) + '</p>' +
           '<div class="product-footer"><div class="product-price">' + NAIRA.format(product.price) + comparePrice + '</div>' +
           '<button type="button" class="add-to-cart" data-id="' + escapeHtml(product.id) + '" data-name="' + escapeHtml(product.name) +
           '" data-price="' + product.price + '" data-img="' + escapeHtml(product.image_url) + '">' +
@@ -154,25 +157,78 @@
         );
       }).join("");
       cards = Array.prototype.slice.call(grid.querySelectorAll(".product-card"));
-      catButtons.forEach(function (button) {
-        var category = button.getAttribute("data-cat");
-        if (category === "all") {
-          button.innerHTML = "All Products <span class=\"count\">(" + products.length + ")</span>";
-        } else {
-          var count = products.filter(function (product) { return product.category === category; }).length;
-          button.innerHTML = button.textContent.replace(/\s*\(\d+\)/, "") + " <span class=\"count\">(" + count + ")</span>";
-        }
-      });
+      buildCategoryNav(products);
       applyFilters();
+    }
+
+    function buildCategoryNav(products) {
+      if (!catNav || !window.ADC_CATEGORIES) return;
+      var totalCount = products.length;
+      var html = '<button type="button" class="cat-nav-all' + (activeCat === "all" ? " active" : "") + '" data-cat="all">All Products <span class="count">(' + totalCount + ')</span></button>';
+
+      html += window.ADC_CATEGORIES.map(function (cat) {
+        var catProducts = products.filter(function (p) { return p.category === cat.slug; });
+        if (catProducts.length === 0) return "";
+        var isOpen = activeCat === cat.slug;
+        var subHtml = cat.subcategories.map(function (sub) {
+          var subCount = catProducts.filter(function (p) { return p.subcategory === sub.slug; }).length;
+          if (subCount === 0) return "";
+          var isActiveSub = isOpen && activeSubcat === sub.slug;
+          return '<button type="button" class="cat-nav-sub-btn' + (isActiveSub ? " active" : "") + '" data-cat="' + cat.slug + '" data-subcat="' + sub.slug + '">' + escapeHtml(sub.name) + ' <span class="count">(' + subCount + ')</span></button>';
+        }).join("");
+        return (
+          '<div class="cat-group' + (isOpen ? " open" : "") + '">' +
+          '<button type="button" class="cat-nav-toggle' + (isOpen && activeSubcat === "all" ? " active" : "") + '" data-cat="' + cat.slug + '">' +
+          '<span>' + escapeHtml(cat.name) + ' <span class="count">(' + catProducts.length + ')</span></span>' +
+          '<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>' +
+          (subHtml ? '<div class="cat-nav-sub"' + (isOpen ? "" : " hidden") + '><button type="button" class="cat-nav-sub-btn' + (isOpen && activeSubcat === "all" ? " active" : "") + '" data-cat="' + cat.slug + '" data-subcat="all">All ' + escapeHtml(cat.name) + '</button>' + subHtml + '</div>' : "") +
+          '</div>'
+        );
+      }).join("");
+
+      catNav.innerHTML = html;
+
+      var allBtn = catNav.querySelector(".cat-nav-all");
+      if (allBtn) allBtn.addEventListener("click", function () {
+        activeCat = "all"; activeSubcat = "all";
+        buildCategoryNav(lastProducts);
+        applyFilters();
+      });
+      Array.prototype.forEach.call(catNav.querySelectorAll(".cat-nav-toggle"), function (btn) {
+        btn.addEventListener("click", function () {
+          var slug = btn.getAttribute("data-cat");
+          var group = btn.closest(".cat-group");
+          var sub = group ? group.querySelector(".cat-nav-sub") : null;
+          if (activeCat === slug && sub && !sub.hasAttribute("hidden")) {
+            activeCat = "all"; activeSubcat = "all";
+          } else {
+            activeCat = slug; activeSubcat = "all";
+          }
+          buildCategoryNav(lastProducts);
+          applyFilters();
+        });
+      });
+      Array.prototype.forEach.call(catNav.querySelectorAll(".cat-nav-sub-btn"), function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          activeCat = btn.getAttribute("data-cat");
+          activeSubcat = btn.getAttribute("data-subcat");
+          buildCategoryNav(lastProducts);
+          applyFilters();
+        });
+      });
     }
 
     function loadProducts() {
       if (!window.supabase || !window.ADC_SUPABASE_URL || !window.ADC_SUPABASE_ANON_KEY) return;
       var client = window.supabase.createClient(window.ADC_SUPABASE_URL, window.ADC_SUPABASE_ANON_KEY);
-      client.from("products").select("id, name, category, description, search_terms, price, compare_at_price, image_url, badge")
+      client.from("products").select("id, name, category, subcategory, description, short_description, search_terms, price, compare_at_price, image_url, badge")
         .eq("is_active", true).order("created_at", { ascending: true })
         .then(function (result) {
           if (result.error || !result.data || result.data.length === 0) return;
+          var params = new URLSearchParams(window.location.search);
+          if (params.get("category")) activeCat = params.get("category");
+          if (params.get("subcategory")) activeSubcat = params.get("subcategory");
           renderProducts(result.data);
         })
         .catch(function (error) {
@@ -185,9 +241,10 @@
       var visibleCount = 0;
       cards.forEach(function (card) {
         var matchesCat = activeCat === "all" || card.getAttribute("data-cat") === activeCat;
+        var matchesSubcat = activeSubcat === "all" || card.getAttribute("data-subcat") === activeSubcat;
         var haystack = (card.getAttribute("data-search") || "").toLowerCase();
         var matchesSearch = !q || haystack.indexOf(q) !== -1;
-        var show = matchesCat && matchesSearch;
+        var show = matchesCat && matchesSubcat && matchesSearch;
         card.style.display = show ? "" : "none";
         if (show) visibleCount++;
       });
@@ -213,14 +270,6 @@
 
     if (searchInput) searchInput.addEventListener("input", applyFilters);
     if (sortSelect) sortSelect.addEventListener("change", applyFilters);
-    catButtons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        catButtons.forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        activeCat = btn.getAttribute("data-cat");
-        applyFilters();
-      });
-    });
 
     grid.addEventListener("click", function (e) {
       var btn = e.target.closest(".add-to-cart");
@@ -538,6 +587,7 @@
     updateCartBadge();
     renderCartDrawer();
   }
+    window.ADC_cart = { addToCart: addToCart, openCart: openCart };
 
   function init() {
     wireShared();

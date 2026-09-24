@@ -20,6 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Lora:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/store.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -125,14 +126,7 @@
     <div class="shop-layout">
       <aside class="shop-filters">
         <h4>Categories</h4>
-        <ul>
-          <li><button type="button" class="shop-cat-btn active" data-cat="all">All Products <span class="count">(14)</span></button></li>
-<li><button type="button" class="shop-cat-btn" data-cat="Security">Security & Surveillance <span class="count">(4)</span></button></li>
-<li><button type="button" class="shop-cat-btn" data-cat="solar">Solar Power <span class="count">(3)</span></button></li>
-<li><button type="button" class="shop-cat-btn" data-cat="inverter">Inverter & Backup <span class="count">(3)</span></button></li>
-<li><button type="button" class="shop-cat-btn" data-cat="smart">Smart Home <span class="count">(4)</span></button></li>
-
-        </ul>
+        <div class="cat-nav" id="cat-nav"></div>
         <h4>Secure And Verified</h4>
         <div class="trust-bar trust-bar-vertical">
           <div class="trust-item">
@@ -437,6 +431,7 @@
   <script src="js/main.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
   <script src="js/supabase-client.js" defer></script>
+  <script src="js/categories.js" defer></script>
   <script src="js/store.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,78 @@
+/* ============================================
+   ADC SYSTEMS — PRODUCT DETAIL PAGE
+   Loads after css/store.css on product.html only, so it can reuse the
+   --adc-* custom properties and .btn/.breadcrumb/.container classes
+   defined there.
+   ============================================ */
+
+.pd-section{ padding-block:clamp(1.6rem,4vw,2.8rem); }
+
+/* ---------- Hero: image + info ---------- */
+.pd-hero{ display:grid; grid-template-columns:minmax(0,480px) 1fr; gap:2.6rem; align-items:start; margin-top:1rem; }
+.pd-media{ position:relative; aspect-ratio:4/3; background:var(--adc-paper); border:1px solid var(--adc-line); border-radius:var(--adc-radius-m); overflow:hidden; }
+.pd-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pd-badge{ position:absolute; top:.8rem; left:.8rem; z-index:1; background:var(--adc-red-600); color:var(--adc-white); font-size:.72rem; font-weight:700; padding:.32rem .7rem; border-radius:var(--adc-radius-s); text-transform:uppercase; letter-spacing:.03em; }
+.pd-info{ min-width:0; }
+.pd-cat-line{ font-size:.78rem; font-weight:600; color:var(--adc-red-600); text-transform:uppercase; letter-spacing:.03em; margin-bottom:.6rem; }
+.pd-info h1{ font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,2.6vw,1.9rem); line-height:1.3; color:var(--adc-ink); margin:0 0 1rem; }
+.pd-price{ font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.6rem; color:var(--adc-navy-900); display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+.pd-price small{ font-family:'Poppins',sans-serif; font-weight:400; font-size:1rem; color:var(--adc-slate-light); text-decoration:line-through; }
+.pd-add-btn{ max-width:320px; }
+
+/* ---------- Desktop tabs ---------- */
+.pd-tabs{ display:flex; gap:.4rem; margin-top:2.6rem; border-bottom:1px solid var(--adc-line); }
+.pd-tab{ background:none; border:none; border-bottom:2.5px solid transparent; padding:.9rem 1.1rem; font-family:'Poppins',sans-serif; font-weight:600; font-size:.92rem; color:var(--adc-slate); cursor:pointer; }
+.pd-tab.active{ color:var(--adc-navy-900); border-color:var(--adc-red-600); }
+.pd-panel-heading{ display:none; }
+
+.pd-panels{ padding-block:1.8rem; }
+.pd-panel{ display:none; max-width:74ch; }
+.pd-panel.active{ display:block; }
+#pd-overview-text{ color:var(--adc-slate); font-size:.98rem; line-height:1.7; }
+
+.pd-features-list{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem 1.4rem; }
+.pd-features-list li{ display:flex; align-items:flex-start; gap:.6rem; color:var(--adc-ink); font-size:.92rem; line-height:1.5; }
+.pd-features-list li i{ color:var(--adc-red-600); margin-top:.25rem; flex-shrink:0; }
+.pd-features-list li.pd-empty{ color:var(--adc-slate-light); grid-column:1 / -1; }
+
+.pd-specs-table{ width:100%; border-collapse:collapse; font-size:.9rem; }
+.pd-specs-table tr{ border-bottom:1px solid var(--adc-line); }
+.pd-specs-table th{ text-align:left; padding:.75rem 1rem .75rem 0; width:38%; color:var(--adc-slate); font-weight:600; }
+.pd-specs-table td{ padding:.75rem 0; color:var(--adc-ink); }
+
+/* dots only render on mobile (see media query below) */
+.pd-dots{ display:none; justify-content:center; gap:.5rem; margin-top:.6rem; }
+.pd-dot{ width:7px; height:7px; border-radius:50%; border:none; background:var(--adc-line); padding:0; cursor:pointer; }
+.pd-dot.active{ background:var(--adc-red-600); width:18px; border-radius:99px; transition:width .2s ease; }
+
+/* ---------- Mobile: swipeable Overview / Features / Specifications ---------- */
+@media (max-width:760px){
+  .pd-hero{ grid-template-columns:1fr; gap:1.2rem; }
+  .pd-section .container{ padding-inline:1.5rem; }
+  .pd-info{ text-align:center; }
+  .pd-price{ justify-content:center; }
+  .pd-add-btn{ max-width:320px; margin-inline:auto; }
+
+  .pd-tabs{ display:none; }
+  .pd-panel-heading{ display:block; font-family:'Montserrat',sans-serif; font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--adc-navy-900); margin:0 0 .8rem; }
+
+  .pd-panels{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    padding-block:1.4rem;
+    margin-inline:-1.5rem;
+    padding-inline:1.5rem;
+  }
+  .pd-panels::-webkit-scrollbar{ display:none; }
+  .pd-panel{
+    display:block !important;
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    padding-right:1.5rem;
+  }
+  .pd-features-list{ grid-template-columns:1fr; }
+  .pd-dots{ display:flex; }
+}

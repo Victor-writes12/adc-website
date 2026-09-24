@@ -218,15 +218,39 @@
       msg.className = "form-msg is-visible " + type;
     }
 
+    function populateSubcategoryOptions(categorySlug) {
+      var subSelect = document.getElementById("productSubcategory");
+      if (!subSelect) return;
+      var cat = (window.ADC_CATEGORIES || []).filter(function (c) { return c.slug === categorySlug; })[0];
+      var subs = cat ? cat.subcategories : [];
+      subSelect.innerHTML = subs.map(function (s) {
+        return '<option value="' + s.slug + '">' + s.name + '</option>';
+      }).join("");
+    }
+
+    function populateCategoryOptions() {
+      var catSelect = document.getElementById("productCategory");
+      if (!catSelect || !window.ADC_CATEGORIES) return;
+      catSelect.innerHTML = window.ADC_CATEGORIES.map(function (cat) {
+        return '<option value="' + cat.slug + '">' + cat.name + '</option>';
+      }).join("");
+      populateSubcategoryOptions(catSelect.value);
+      catSelect.addEventListener("change", function () {
+        populateSubcategoryOptions(catSelect.value);
+      });
+    }
+
     function resetProductForm() {
       document.getElementById("productForm").reset();
       document.getElementById("productId").value = "";
       document.getElementById("productActive").checked = true;
       document.getElementById("productSubmit").textContent = "Add product";
       document.getElementById("productCancel").style.display = "none";
+      populateSubcategoryOptions(document.getElementById("productCategory").value);
     }
-
+    
     function wireProductManager() {
+      populateCategoryOptions();
       document.getElementById("productCancel").addEventListener("click", resetProductForm);
       document.getElementById("productForm").addEventListener("submit", function (e) {
         e.preventDefault();
@@ -234,6 +258,7 @@
         var id = document.getElementById("productId").value.trim();
         var name = document.getElementById("productName").value.trim();
         var category = document.getElementById("productCategory").value;
+        var subcategory = document.getElementById("productSubcategory").value;
         var price = Number(document.getElementById("productPrice").value);
         var compareAt = document.getElementById("productComparePrice").value;
         var image = document.getElementById("productImage").files[0];
@@ -241,7 +266,11 @@
           id: id || "p-" + Date.now(),
           name: name,
           category: category,
+          subcategory: subcategory || null,
           description: document.getElementById("productDescription").value.trim(),
+          short_description: document.getElementById("productShortDescription").value.trim() || null,
+          features: document.getElementById("productFeatures").value.trim() || null,
+          specifications: document.getElementById("productSpecifications").value.trim() || null,
           search_terms: document.getElementById("productSearchTerms").value.trim() || name.toLowerCase(),
           price: price,
           compare_at_price: compareAt ? Number(compareAt) : null,
@@ -284,11 +313,11 @@
     }
 
     function loadProductAdminList() {
-      client.from("products").select("id, name, category, price, image_url, is_active, badge, description, search_terms, compare_at_price").order("updated_at", { ascending: false }).then(function (res) {
+      client.from("products").select("id, name, category, subcategory, price, image_url, is_active, badge, description, short_description, features, specifications, search_terms, compare_at_price").order("updated_at", { ascending: false }).then(function (res) {
         if (res.error) { productMessage(res.error.message, "error"); return; }
         var wrap = document.getElementById("productAdminList");
         wrap.innerHTML = (res.data || []).map(function (product) {
-          return '<div class="admin-list-row product-admin-row"><span><strong>' + escapeHtml(product.name) + '</strong><small>' + escapeHtml(product.category) + ' · NGN ' + Number(product.price).toLocaleString("en-NG") + (product.is_active ? " · Visible" : " · Hidden") + '</small></span><span class="product-admin-actions"><button type="button" class="edit-product" data-id="' + escapeHtml(product.id) + '">Edit</button><button type="button" class="del-btn delete-product" data-id="' + escapeHtml(product.id) + '">Remove</button></span></div>';
+          return '<div class="admin-list-row product-admin-row"><span><strong>' + escapeHtml(product.name) + '</strong><small>' + escapeHtml(product.category) + ' \u00b7 NGN ' + Number(product.price).toLocaleString("en-NG") + (product.is_active ? " \u00b7 Visible" : " \u00b7 Hidden") + '</small></span><span class="product-admin-actions"><button type="button" class="edit-product" data-id="' + escapeHtml(product.id) + '">Edit</button><button type="button" class="del-btn delete-product" data-id="' + escapeHtml(product.id) + '">Remove</button></span></div>';
         }).join("");
         wrap.querySelectorAll(".edit-product").forEach(function (button) {
           button.addEventListener("click", function () {
@@ -297,9 +326,14 @@
             document.getElementById("productId").value = product.id;
             document.getElementById("productName").value = product.name;
             document.getElementById("productCategory").value = product.category;
+            populateSubcategoryOptions(product.category);
+            document.getElementById("productSubcategory").value = product.subcategory || "";
             document.getElementById("productPrice").value = product.price;
             document.getElementById("productComparePrice").value = product.compare_at_price || "";
             document.getElementById("productDescription").value = product.description;
+            document.getElementById("productShortDescription").value = product.short_description || "";
+            document.getElementById("productFeatures").value = product.features || "";
+            document.getElementById("productSpecifications").value = product.specifications || "";
             document.getElementById("productSearchTerms").value = product.search_terms || "";
             document.getElementById("productBadge").value = product.badge || "";
             document.getElementById("productActive").checked = product.is_active;

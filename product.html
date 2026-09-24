@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://adcsystemslimited.com/product.html">
+<meta name="robots" content="noindex">
+<title>Product | ADC Systems</title>
+<link rel="icon" type="image/png" href="assets/images/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/store.css">
+<link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+<div id="preloader" aria-hidden="true">
+  <div class="pre-mark">
+    <img src="assets/images/preloader-logo.png" alt="" width="56" height="56">
+  </div>
+</div>
+<header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="index.html">
+        <img src="assets/images/adc-icon.png" alt="ADC Systems icon" width="38" height="38">
+        <span class="brand-text"><strong>ADC SYSTEMS</strong><span>Integrated Solutions Ltd</span></span>
+      </a>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="shop.html" aria-current="page">Shop</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+2348163614795" class="nav-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.9 2z"/></svg> <span>+234 816 361 4795</span>
+      </a>
+      <a href="contact.html" class="btn btn-primary">Buy Now</a>
+      <button class="cart-toggle" id="cart-toggle" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2.4l2.7 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21.5 7H6"/></svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav-scrim" id="nav-scrim"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" id="cart-close" aria-label="Close cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty" id="cart-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2.5 3h2.4l2.7 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21.5 7H6"/></svg>
+      <p>Your cart is empty.</p>
+      <a href="shop.html" class="btn btn-outline">Browse the Shop</a>
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-subtotal"><span>Subtotal</span><strong id="cart-subtotal">&#8358;0</strong></div>
+    <p class="form-note">Taxes and delivery calculated at checkout.</p>
+    <a href="checkout.html" class="btn btn-primary btn-block" id="checkout-link">Proceed to Checkout</a>
+  </div>
+</aside>
+<div class="cart-scrim" id="cart-scrim"></div>
+
+<section class="section pd-section">
+  <div class="container">
+    <div class="breadcrumb" id="pd-breadcrumb">
+      <a href="index.html">Home</a> <span>/</span> <a href="shop.html">Shop</a> <span>/</span> <span>Loading&hellip;</span>
+    </div>
+
+    <div class="pd-hero" id="pd-layout">
+      <div class="pd-media">
+        <span class="pd-badge" id="pd-badge" style="display:none;"></span>
+        <img id="pd-image" src="" alt="">
+      </div>
+      <div class="pd-info">
+        <div class="pd-cat-line" id="pd-cat-line"></div>
+        <h1 id="pd-title">Loading product&hellip;</h1>
+        <div class="pd-price" id="pd-price"></div>
+        <button type="button" class="btn btn-primary btn-block pd-add-btn" id="pd-add-to-cart">
+          <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div class="pd-tabs" role="tablist">
+      <button type="button" class="pd-tab active" data-target="pd-panel-overview" role="tab" aria-selected="true" id="pd-tab-overview">Overview</button>
+      <button type="button" class="pd-tab" data-target="pd-panel-features" role="tab" aria-selected="false" id="pd-tab-features">Key Features</button>
+      <button type="button" class="pd-tab" data-target="pd-panel-specs" role="tab" aria-selected="false" id="pd-tab-specs">Specifications</button>
+    </div>
+
+    <div class="pd-panels" id="pd-swipe-track">
+      <div class="pd-panel active" id="pd-panel-overview">
+        <h2 class="pd-panel-heading">Overview</h2>
+        <p id="pd-overview-text"></p>
+      </div>
+      <div class="pd-panel" id="pd-panel-features">
+        <h2 class="pd-panel-heading">Key Features</h2>
+        <ul class="pd-features-list" id="pd-features-list"></ul>
+      </div>
+      <div class="pd-panel" id="pd-panel-specs">
+        <h2 class="pd-panel-heading">Specifications</h2>
+        <table class="pd-specs-table">
+          <tbody id="pd-specs-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pd-dots" aria-hidden="true">
+      <button type="button" class="pd-dot active" aria-label="Overview"></button>
+      <button type="button" class="pd-dot" aria-label="Key Features"></button>
+      <button type="button" class="pd-dot" aria-label="Specifications"></button>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="assets/images/preloader-logo.png" alt="ADC Systems icon">
+            <strong>ADC SYSTEMS</strong>
+          </div>
+          <p class="tag">Innovating safety, powering comfort. Security surveillance, solar &amp; inverter power, and smart home automation for homes and businesses across Lagos.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="services.html#cctv">Security Surveillance</a></li>
+            <li><a href="services.html#solar">Solar &amp; Inverter</a></li>
+            <li><a href="services.html#smarthome">Smart Home</a></li>
+            <li><a href="services.html#access">Access Control</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li>Lekki - Ajah, Lagos, Nigeria</li>
+            <li>+234 8111066070</li>
+            <li>info@adcsystemslimited.com</li>
+            <li>Mon - Sat: 8am - 6pm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span class="year"></span> ADC Systems Integrated Solutions Limited. All rights reserved.</span>
+        <span>Innovating Safety, Powering Comfort</span>
+      </div>
+    </div>
+  </footer>
+  <script src="js/main.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="js/supabase-client.js" defer></script>
+  <script src="js/categories.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/product.js" defer></script>
+</body>
+</html>
