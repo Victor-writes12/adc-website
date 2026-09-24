@@ -110,7 +110,7 @@
     document.body.style.overflow = "";
   }
 
-   function wireShopPage() {
+  function wireShopPage() {
     var grid = document.getElementById("product-grid");
     if (!grid) return;
 
@@ -181,7 +181,7 @@
           '<button type="button" class="cat-nav-toggle' + (isOpen && activeSubcat === "all" ? " active" : "") + '" data-cat="' + cat.slug + '">' +
           '<span>' + escapeHtml(cat.name) + ' <span class="count">(' + catProducts.length + ')</span></span>' +
           '<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>' +
-          (subHtml ? '<div class="cat-nav-sub"' + (isOpen ? "" : " hidden") + '><button type="button" class="cat-nav-sub-btn' + (isOpen && activeSubcat === "all" ? " active" : "") + '" data-cat="' + cat.slug + '" data-subcat="all">All ' + escapeHtml(cat.name) + '</button>' + subHtml + '</div>' : "") +
+          (subHtml ? '<div class="cat-nav-sub"><button type="button" class="cat-nav-sub-btn' + (isOpen && activeSubcat === "all" ? " active" : "") + '" data-cat="' + cat.slug + '" data-subcat="all">All ' + escapeHtml(cat.name) + '</button>' + subHtml + '</div>' : "") +
           '</div>'
         );
       }).join("");
@@ -197,9 +197,7 @@
       Array.prototype.forEach.call(catNav.querySelectorAll(".cat-nav-toggle"), function (btn) {
         btn.addEventListener("click", function () {
           var slug = btn.getAttribute("data-cat");
-          var group = btn.closest(".cat-group");
-          var sub = group ? group.querySelector(".cat-nav-sub") : null;
-          if (activeCat === slug && sub && !sub.hasAttribute("hidden")) {
+          if (activeCat === slug) {
             activeCat = "all"; activeSubcat = "all";
           } else {
             activeCat = slug; activeSubcat = "all";
@@ -587,7 +585,8 @@
     updateCartBadge();
     renderCartDrawer();
   }
-    window.ADC_cart = { addToCart: addToCart, openCart: openCart };
+
+  window.ADC_cart = { addToCart: addToCart, openCart: openCart };
 
   function init() {
     wireShared();
